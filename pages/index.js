@@ -7,18 +7,22 @@ import withData from '../lib/withData';
 import Head from '../components/head';
 import Navbar from '../components/Navbar';
 
-const Home = ({ data: { allUsers, allLeagues } }) => (
-  <div>
-    <Head title="Home" />
-    <Navbar />
+const Home = ({ data: { loading, allUsers, allLeagues } }) => {
+  if (loading) return <strong>LOADING...</strong>;
 
-    <h1>Usernames</h1>
-    <ul>{allUsers.map(u => <li key={u.id}>{u.username}</li>)}</ul>
+  return (
+    <div>
+      <Head title="Home" />
+      <Navbar />
 
-    <h1>Leagues</h1>
-    <ul>{allLeagues.map(l => <li key={l.id}>{l.name}</li>)}</ul>
-  </div>
-);
+      <h2>Usernames</h2>
+      <ul>{allUsers.map(u => <li key={u.id}>{u.username}</li>)}</ul>
+
+      <h2>Leagues</h2>
+      <ul>{allLeagues.map(l => <li key={l.id}>{l.name}</li>)}</ul>
+    </div>
+  );
+};
 
 Home.propTypes = {
   data: PropTypes.objectOf(PropTypes.any).isRequired,
