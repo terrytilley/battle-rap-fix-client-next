@@ -9,6 +9,7 @@ module.exports = {
   },
   rules: {
     'no-console': 0,
+    'react/prop-types': 0,
     'no-param-reassign': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],

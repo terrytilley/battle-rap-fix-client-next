@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -9,18 +11,33 @@ const links = [
   return link;
 });
 
-const Navbar = () => (
-  <nav>
-    <ul>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <Link href={href}>
-            <a>{label}</a>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
+const Navbar = ({ data: { error, loading } }) => {
+  if (loading) return <div />;
 
-export default Navbar;
+  return (
+    <nav>
+      {error ? 'Not Authenticated!' : 'Authenticated'}
+      <ul>
+        {links.map(({ key, href, label }) => (
+          <li key={key}>
+            <Link href={href}>
+              <a>{label}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+const CurrentUserQuery = gql`
+  query CurrentUser {
+    currentUser {
+      id
+      username
+      email
+    }
+  }
+`;
+
+export default graphql(CurrentUserQuery)(Navbar);
